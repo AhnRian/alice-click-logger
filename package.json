@@ -1,0 +1,31 @@
+{
+  "name": "@black-peach-cake/click-logger",
+  "version": "0.0.1",
+  "type": "module",
+  "description": "",
+  "main": "dist/click-logger.js",
+  "module": "dist/click-logger.js",
+  "unpkg": "dist/click-logger.iife.js",
+  "jsdelivr": "dist/click-logger.iife.js",
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "vite build",
+    "changeset": "changeset",
+    "version": "changeset version",
+    "release": "pnpm build && changeset publish"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.34.5",
+  "devDependencies": {
+    "@changesets/cli": "^2.31.1",
+    "typescript": "^7.0.2",
+    "vite": "^8.2.1"
+  }
+}
