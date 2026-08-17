@@ -6,15 +6,17 @@ declare global {
   }
 }
 
-if (!window.__clickLoggerInit) {
-  window.__clickLoggerInit = true;
+if (typeof window !== "undefined") {
+  if (!window.__clickLoggerInit) {
+    window.__clickLoggerInit = true;
 
-  document.addEventListener("click", (event) => {
-    const parsedData = extractDataParams(event.target);
-    if (!parsedData) return undefined;
+    document.addEventListener("click", (event) => {
+      const parsedData = extractDataParams(event.target);
+      if (!parsedData) return undefined;
 
-    const logEntry = { ...parsedData, timestamp: new Date().toISOString() };
+      const logEntry = { ...parsedData, timestamp: new Date().toISOString() };
 
-    console.log(logEntry);
-  });
+      console.log(logEntry);
+    });
+  }
 }
