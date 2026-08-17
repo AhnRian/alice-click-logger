@@ -1,10 +1,20 @@
 import { extractDataParams } from "./click-handler";
 
-document.addEventListener("click", (event) => {
-  const parsedData = extractDataParams(event.target);
-  if (!parsedData) return undefined;
+declare global {
+  interface Window {
+    __clickLoggerInit?: boolean;
+  }
+}
 
-  const logEntry = { ...parsedData, timestamp: new Date().toISOString() };
+if (!window.__clickLoggerInit) {
+  window.__clickLoggerInit = true;
 
-  console.log(logEntry);
-});
+  document.addEventListener("click", (event) => {
+    const parsedData = extractDataParams(event.target);
+    if (!parsedData) return undefined;
+
+    const logEntry = { ...parsedData, timestamp: new Date().toISOString() };
+
+    console.log(logEntry);
+  });
+}
