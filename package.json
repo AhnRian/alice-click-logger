@@ -2,7 +2,13 @@
   "name": "@black-peach-cake/click-logger",
   "version": "0.1.0",
   "type": "module",
-  "description": "",
+  "description": "data-params 속성을 가진 요소(또는 조상)를 클릭하면 자동으로 감지해 로그를 남기는 경량 이벤트 위임 클릭 로거",
+  "homepage": "https://ahnrian.github.io/alice-click-logger/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AhnRian/alice-click-logger.git"
+  },
+  "keywords": ["click", "logger", "event-delegation", "analytics"],
   "main": "dist/click-logger.js",
   "module": "dist/click-logger.js",
   "unpkg": "dist/click-logger.iife.js",
@@ -20,7 +26,6 @@
     "version": "changeset version",
     "release": "pnpm build && changeset publish"
   },
-  "keywords": [],
   "author": "",
   "license": "ISC",
   "packageManager": "pnpm@10.34.5",
