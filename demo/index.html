@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>@black-peach-cake/click-logger demo</title>
+    <style>
+      body { font-family: sans-serif; max-width: 640px; margin: 40px auto; line-height: 1.6; }
+      button { padding: 8px 14px; margin: 4px 0; cursor: pointer; }
+      hr { margin: 24px 0; border: none; border-top: 1px solid #ddd; }
+    </style>
+  </head>
+  <body>
+    <h1>click-logger demo</h1>
+    <p>개발자 도구(콘솔)를 열고 아래 버튼들을 클릭해보세요. <code>closest("[data-params]")</code>로 클릭 지점에서 조상 방향으로 <code>data-params</code>를 찾아 로그를 남깁니다.</p>
+
+    <div data-params='{"service":"black_peach_cake","page":"main"}'>
+      <button>부모(div)에 data-params가 있는 경우</button>
+    </div>
+
+    <hr />
+
+    <button data-params='{"service":"self","page":"case2"}'>
+      자기 자신에 data-params가 있는 경우
+    </button>
+
+    <hr />
+
+    <button>data-params가 전혀 없는 경우 (로그 안 남아야 정상)</button>
+
+    <hr />
+
+    <div data-params="not-json">
+      <button>JSON이 깨진 경우 (경고만 남아야 정상)</button>
+    </div>
+
+    <script src="./click-logger.iife.js"></script>
+  </body>
+</html>
