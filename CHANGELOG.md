@@ -1,5 +1,11 @@
 # @black-peach-cake/click-logger
 
+## 0.1.1
+
+### Patch Changes
+
+- 2048ae6: README, package.json 메타데이터(description/homepage/repository/keywords) 추가
+
 ## 0.1.0
 
 ### Minor Changes
