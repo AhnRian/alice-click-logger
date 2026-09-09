@@ -7,11 +7,47 @@
       body { font-family: sans-serif; max-width: 640px; margin: 40px auto; line-height: 1.6; }
       button { padding: 8px 14px; margin: 4px 0; cursor: pointer; }
       hr { margin: 24px 0; border: none; border-top: 1px solid #ddd; }
+      #log-panel {
+        margin-top: 32px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        overflow: hidden;
+      }
+      #log-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #f5f5f5;
+        padding: 8px 12px;
+        font-size: 14px;
+        font-weight: bold;
+      }
+      #log-header button {
+        padding: 4px 10px;
+        margin: 0;
+        font-size: 12px;
+      }
+      #log-output {
+        margin: 0;
+        padding: 12px;
+        min-height: 80px;
+        max-height: 260px;
+        overflow-y: auto;
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 13px;
+        white-space: pre-wrap;
+        background: #0d1117;
+        color: #c9d1d9;
+      }
+      .log-line { border-bottom: 1px dashed #30363d; padding: 4px 0; }
+      .log-line:last-child { border-bottom: none; }
+      .log-line.warn { color: #e3b341; }
+      .log-empty { color: #6e7681; }
     </style>
   </head>
   <body>
     <h1>click-logger demo</h1>
-    <p>개발자 도구(콘솔)를 열고 아래 버튼들을 클릭해보세요. <code>closest("[data-params]")</code>로 클릭 지점에서 조상 방향으로 <code>data-params</code>를 찾아 로그를 남깁니다.</p>
+    <p>아래 버튼들을 클릭해보세요. <code>closest("[data-params]")</code>로 클릭 지점에서 조상 방향으로 <code>data-params</code>를 찾아 로그를 남깁니다. 결과는 페이지 하단에 바로 표시됩니다(브라우저 콘솔에도 동일하게 찍힙니다).</p>
 
     <div data-params='{"service":"black_peach_cake","page":"main"}'>
       <button>부모(div)에 data-params가 있는 경우</button>
@@ -33,6 +69,54 @@
       <button>JSON이 깨진 경우 (경고만 남아야 정상)</button>
     </div>
 
+    <div id="log-panel">
+      <div id="log-header">
+        <span>로그 출력</span>
+        <button id="log-clear">지우기</button>
+      </div>
+      <div id="log-output"><span class="log-empty">— 아직 로그 없음, 버튼을 클릭해보세요 —</span></div>
+    </div>
+
+    <script>
+      // 데모 페이지 전용: click-logger가 남기는 console.log/warn을 가로채서
+      // 화면에도 함께 출력한다. 라이브러리 자체는 건드리지 않는다.
+      (function () {
+        const output = document.getElementById("log-output");
+        const clearBtn = document.getElementById("log-clear");
+        let hasLog = false;
+
+        function render(kind, args) {
+          if (!hasLog) {
+            output.innerHTML = "";
+            hasLog = true;
+          }
+          const line = document.createElement("div");
+          line.className = "log-line" + (kind === "warn" ? " warn" : "");
+          const time = new Date().toLocaleTimeString("ko-KR", { hour12: false });
+          const text = args
+            .map((a) => (typeof a === "string" ? a : JSON.stringify(a)))
+            .join(" ");
+          line.textContent = `[${time}] ${kind === "warn" ? "⚠ " : ""}${text}`;
+          output.prepend(line);
+        }
+
+        clearBtn.addEventListener("click", () => {
+          hasLog = false;
+          output.innerHTML = '<span class="log-empty">— 아직 로그 없음, 버튼을 클릭해보세요 —</span>';
+        });
+
+        const originalLog = console.log.bind(console);
+        const originalWarn = console.warn.bind(console);
+        console.log = function (...args) {
+          render("log", args);
+          originalLog(...args);
+        };
+        console.warn = function (...args) {
+          render("warn", args);
+          originalWarn(...args);
+        };
+      })();
+    </script>
     <script src="./click-logger.iife.js"></script>
   </body>
 </html>
